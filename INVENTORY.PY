@@ -1,0 +1,93 @@
+class Product:
+    def _init_(self, name, type, price, quantity, quality):
+        self.name = name
+        self.type = type
+        self.price = price
+        self.quantity = quantity
+        self.quality = quality
+
+class ElectronicBusiness:
+    def _init_(self):
+        self.products = []
+
+    def add_product(self, name, type, price, quantity, quality):
+        product = Product(name, type, price, quantity, quality)
+        self.products.append(product)
+        print(f"Product {name} added successfully!")
+
+    def view_products(self):
+        for i, product in enumerate(self.products, start=1):
+            print(f"Product {i}:")
+            print(f"Name: {product.name}")
+            print(f"Type: {product.type}")
+            print(f"Price: {product.price}")
+            print(f"Quantity: {product.quantity}")
+            print(f"Quality: {product.quality}")
+            print("------------------------")
+
+    def search_product(self, name):
+        for product in self.products:
+            if product.name.lower() == name.lower():
+                print(f"Product {product.name} found!")
+                print(f"Name: {product.name}")
+                print(f"Type: {product.type}")
+                print(f"Price: {product.price}")
+                print(f"Quantity: {product.quantity}")
+                print(f"Quality: {product.quality}")
+                return
+        print("Product not found!")
+
+    def update_product(self, name, attribute, value):
+        for product in self.products:
+            if product.name.lower() == name.lower():
+                setattr(product, attribute, value)
+                print(f"Product {name} updated successfully!")
+                return
+        print("Product not found!")
+
+    def delete_product(self, name):
+        for product in self.products:
+            if product.name.lower() == name.lower():
+                self.products.remove(product)
+                print(f"Product {name} deleted successfully!")
+                return
+        print("Product not found!")
+
+business = ElectronicBusiness()
+
+while True:
+    print("1. Add Product")
+    print("2. View Products")
+    print("3. Search Product")
+    print("4. Update Product")
+    print("5. Delete Product")
+    print("6. Exit")
+    
+    choice = input("Enter your choice: ")
+    
+    if choice == "1":
+        name = input("Enter product name: ")
+        type = input("Enter product type: ")
+        price = float(input("Enter product price: "))
+        quantity = int(input("Enter product quantity: "))
+        quality = input("Enter product quality: ")
+        business.add_product(name, type, price, quantity, quality)
+    elif choice == "2":
+        business.view_products()
+    elif choice == "3":
+        name = input("Enter product name to search: ")
+        business.search_product(name)
+    elif choice == "4":
+        name = input("Enter product name to update: ")
+        attribute = input("Enter attribute to update (name, type, price, quantity, quality): ")
+        value = input("Enter new value: ")
+        if attribute in ["price", "quantity"]:
+            value = float(value) if attribute == "price" else int(value)
+        business.update_product(name, attribute, value)
+    elif choice == "5":
+        name = input("Enter product name to delete: ")
+        business.delete_product(name)
+    elif choice == "6":
+        break
+    else:
+        print("Invalid choice. Please try again.")
